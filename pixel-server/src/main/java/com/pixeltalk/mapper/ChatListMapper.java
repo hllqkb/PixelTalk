@@ -1,6 +1,6 @@
 package com.pixeltalk.mapper;
 
-import com.pixeltalk.domain.po.ChatList;
+import com.pixeltalk.domain.dto.ChatListDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface ChatListMapper extends BaseMapper<ChatList> {
+public interface ChatListMapper extends BaseMapper<ChatListDto> {
 
 }

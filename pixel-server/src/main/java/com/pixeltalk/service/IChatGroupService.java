@@ -1,6 +1,6 @@
 package com.pixeltalk.service;
 
-import com.pixeltalk.domain.po.ChatGroup;
+import com.pixeltalk.domain.dto.ChatGroupDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface IChatGroupService extends IService<ChatGroup> {
+public interface IChatGroupService extends IService<ChatGroupDto> {
 
 }

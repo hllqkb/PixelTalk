@@ -1,6 +1,6 @@
 package com.pixeltalk.mapper;
 
-import com.pixeltalk.domain.po.Message;
+import com.pixeltalk.domain.dto.MessageDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface MessageMapper extends BaseMapper<Message> {
+public interface MessageMapper extends BaseMapper<MessageDto> {
 
 }

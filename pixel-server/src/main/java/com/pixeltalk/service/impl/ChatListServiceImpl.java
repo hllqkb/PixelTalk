@@ -1,6 +1,6 @@
 package com.pixeltalk.service.impl;
 
-import com.pixeltalk.domain.po.ChatList;
+import com.pixeltalk.domain.dto.ChatListDto;
 import com.pixeltalk.mapper.ChatListMapper;
 import com.pixeltalk.service.IChatListService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2025-01-14
  */
 @Service
-public class ChatListServiceImpl extends ServiceImpl<ChatListMapper, ChatList> implements IChatListService {
+public class ChatListServiceImpl extends ServiceImpl<ChatListMapper, ChatListDto> implements IChatListService {
 
 }

@@ -1,7 +1,8 @@
 package com.pixeltalk.service;
 
-import com.pixeltalk.domain.po.User;
+import com.pixeltalk.domain.dto.UserDto;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pixeltalk.domain.po.User;
 
 /**
  * <p>
@@ -11,6 +12,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface IUserService extends IService<User> {
+public interface IUserService extends IService<UserDto> {
 
+    boolean getByUsername(String username);
+
+    boolean getByEmail(String email);
+
+    boolean getByPhone(String phone);
+
+    User getUserByUsername(String username);
 }

@@ -1,16 +1,15 @@
-package com.pixeltalk.domain.po;
+package com.pixeltalk.domain.dto;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -25,7 +24,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @TableName("chat_group")
 @ApiModel(value="ChatGroup对象", description="聊天群信息表")
-public class ChatGroup implements Serializable {
+public class ChatGroupDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

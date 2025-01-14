@@ -14,7 +14,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>pixel-common</module>
-        <module>pixel-pojo</module>
         <module>pixel-server</module>
     </modules>
     <properties>

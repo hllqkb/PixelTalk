@@ -1,6 +1,6 @@
 package com.pixeltalk.service;
 
-import com.pixeltalk.domain.po.Message;
+import com.pixeltalk.domain.dto.MessageDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface IMessageService extends IService<Message> {
+public interface IMessageService extends IService<MessageDto> {
 
 }
