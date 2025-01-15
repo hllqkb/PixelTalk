@@ -8,6 +8,7 @@ import com.pixeltalk.domain.dto.UserDto;
 import com.pixeltalk.domain.dto.UserLoginDto;
 import com.pixeltalk.domain.po.User;
 import com.pixeltalk.encryption.Myencryption;
+import com.pixeltalk.redis.RedisComponent;
 import com.pixeltalk.result.Result;
 import com.pixeltalk.service.IUserService;
 import io.swagger.annotations.Api;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -36,6 +38,7 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
     private final IUserService userService;
+    private final RedisComponent redisComponent;
     @PostMapping("/register")
     public Result<String> register(@Valid @RequestBody UserDto user) {
         if(user==null){
@@ -77,6 +80,7 @@ public class UserController {
         }
         log.info("login success");
         StpUtil.setLoginId(getuser.getUserId());
+        redisComponent.saveTokenUserInfo(StpUtil.getTokenValue(),getuser);
         return Result.success(MessageConstant.LOGIN_SUCCESS);
     }
     @PostMapping("/logout")
@@ -96,4 +100,21 @@ public class UserController {
         }
         return Result.success(MessageConstant.NOT_LOGIN);
     }
+    @PostMapping("/getToken")
+    public Result<String> getToken() {
+        String token = StpUtil.getTokenValue();
+        return Result.success(token);
+    }
+    @PostMapping("/getUserInfo")
+    public Result<UserDto> getUserInfo() {
+            User user = (User) userService.getById((Serializable) StpUtil.getLoginId());
+            UserDto userDto = BeanUtil.copyProperties(user, UserDto.class);
+            return Result.success(userDto);
+    }
+    @PostMapping("/getUserByToken")
+    public Result<User> getUserByToken() {
+        String token = StpUtil.getTokenValue();
+        return Result.success(redisComponent.getUserInfoByToken(token));
+    }
+
 }

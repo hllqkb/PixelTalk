@@ -20,4 +20,6 @@ public class MessageConstant {
     public static final String NOT_LOGIN = "未登录";
     public static final Object SEND_SUCCESS = "发送成功";
     public static final String LOGINED = "已登录";
+    public static final String REDIS_KET_WS_TOKEN = "ws_token";
+    public static final long REDIS_EXPIRE_TIME_WS_TOKEN = 2592000;// 30天
 }
