@@ -17,4 +17,5 @@ public class PixelTalkApplication {
         log.info("欢迎使用PixelTalk!");
         log.info("sa-token配置如下：" + SaTokenManager.getConfig());
     }
+
 }

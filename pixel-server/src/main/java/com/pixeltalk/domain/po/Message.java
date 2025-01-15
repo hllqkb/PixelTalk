@@ -38,6 +38,7 @@ public class Message implements Serializable {
     @ApiModelProperty(value = "接收者ID")
     private String toId;
 
+    @ApiModelProperty(value = "发送者信息")
     private String fromInfo;
 
     @ApiModelProperty(value = "消息内容")

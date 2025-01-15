@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
  * 消息表
@@ -28,17 +30,15 @@ public class MessageDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-
+    @NotBlank(message = "发送账号不能为空")
     @ApiModelProperty(value = "发送者ID")
     private String fromId;
 
+    @NotBlank(message = "接受账号不能为空")
     @ApiModelProperty(value = "接收者ID")
     private String toId;
 
-    private String fromInfo;
-
+    @NotBlank(message = "消息内容不能为空")
     @ApiModelProperty(value = "消息内容")
     private String message;
 
@@ -49,19 +49,13 @@ public class MessageDto implements Serializable {
     private String atUser;
 
     @ApiModelProperty(value = "是否显示时间戳")
-    private Boolean isShowTime;
+    private Integer isShowTime;
 
+    @NotBlank(message = "消息类型不能为空")
     @ApiModelProperty(value = "消息类型（文本、图片、视频等）")
     private String type;
 
     @ApiModelProperty(value = "消息来源（如群组ID）")
-    private String source;
-
-    @ApiModelProperty(value = "消息创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "消息更新时间")
-    private LocalDateTime updateTime;
-
+    private Integer source;
 
 }

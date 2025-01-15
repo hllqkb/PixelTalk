@@ -2,6 +2,7 @@ package com.pixeltalk.mapper;
 
 import com.pixeltalk.domain.dto.MessageDto;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MessageMapper extends BaseMapper<MessageDto> {
 
+    @Select("SELECT username FROM user WHERE user_id = #{fromId}")
+    String getUserInfo(String fromId);//发送者id
 }

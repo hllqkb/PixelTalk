@@ -90,7 +90,10 @@ public class UserController {
         return Result.success(MessageConstant.LOGOUT_SUCCESS);
     }
     @PostMapping("/isLogin")
-    public Result<Boolean> isLogin(){
-        return Result.success(StpUtil.isLogin());
+    public Result<String> isLogin(){
+        if(StpUtil.isLogin()){
+            return Result.success(MessageConstant.LOGINED);
+        }
+        return Result.success(MessageConstant.NOT_LOGIN);
     }
 }

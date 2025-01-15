@@ -18,4 +18,6 @@ public class MessageConstant {
     public static final String LOGIN_SUCCESS = "登录成功";
     public static final String LOGOUT_SUCCESS = "登出成功";
     public static final String NOT_LOGIN = "未登录";
+    public static final Object SEND_SUCCESS = "发送成功";
+    public static final String LOGINED = "已登录";
 }

@@ -1,6 +1,7 @@
 package com.pixeltalk.config;
 
 import com.pixeltalk.interceptor.JwtTokenAdminInterceptor;
+import com.pixeltalk.interceptor.SaTokenInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,18 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-
+    @Autowired
+    private SaTokenInterceptor saTokenInterceptor;
+    protected void addInterceptors(InterceptorRegistry registry) {
+        // 注册自定义拦截器
+        log.info("开始注册自定义拦截器...");
+        // 全局拦截器
+        registry.addInterceptor(saTokenInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/user/isLogin","/user/login", "/user/register", "/user/logout", "/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/doc.html", "/swagger-resources/**", "/configuration/**", "/swagger-ui/**", "/api/**");
+        // 自定义拦截器注册完成
+        log.info("自定义拦截器注册完成...");
+    }
     /**
      * 通过knife4j生成接口文档
      * @return
