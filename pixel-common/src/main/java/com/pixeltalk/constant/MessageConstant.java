@@ -22,4 +22,13 @@ public class MessageConstant {
     public static final String LOGINED = "已登录";
     public static final String REDIS_KET_WS_TOKEN = "ws_token";
     public static final long REDIS_EXPIRE_TIME_WS_TOKEN = 2592000;// 30天
+    public static final String UPDATE_SUCCESS = "更新成功";
+    public static final String DELETE_SUCCESS = "删除成功";
+    public static final Integer ACCOUNT_INACTIVE_CODE = 0;
+    public static final Integer ACCOUNT_ACTIVE_CODE = 1;
+    public static final String NORMAL_USER = "普通用户";
+    public static final String REDIS_KET_USER_HEARTBEAT = "user_heartbeat";
+    public static final String USER_ALREADY_LOGIN = "用户已经登录";
+    public static final String DEFAULT_GROUP_ID = "10086";
+    public static final long HEARTBEAT_INTERVAL = 3600;// 1小时后断开连接
 }

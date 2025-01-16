@@ -7,9 +7,12 @@
         <groupId>com.sky</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>pixel-server</artifactId>
     <dependencies>
+
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>

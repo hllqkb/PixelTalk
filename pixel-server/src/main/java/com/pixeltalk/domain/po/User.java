@@ -54,6 +54,7 @@ public class User extends UserDto implements Serializable {
 
     @ApiModelProperty(value = "用户类型，默认为普通用户")
     private String type;
+    //type:ENUM('普通用户', 'VIP用户', '管理员')
 
     @ApiModelProperty(value = "徽章，用于标识用户特殊身份或成就")
     private String badge;
@@ -68,7 +69,7 @@ public class User extends UserDto implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "是否启用，1 表示启用，0 表示封禁，默认为启用")
-    private Boolean isActive;
+    private Integer isActive;
 
 
 }

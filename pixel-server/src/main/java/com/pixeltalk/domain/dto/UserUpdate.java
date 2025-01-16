@@ -1,10 +1,9 @@
 package com.pixeltalk.domain.dto;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,13 +27,10 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 @TableName("user")
 @ApiModel(value="User对象", description="多用户管理表")
-public class UserDto implements Serializable {
+public class UserUpdate implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "用户ID")
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer userId;
     @NotBlank(message = "用户名不能为空")
     @ApiModelProperty(value = "用户名")
     private String username;
@@ -59,5 +55,12 @@ public class UserDto implements Serializable {
     @ApiModelProperty(value = "用户头像URL")
     private String avatarUrl;
 
+    @ApiModelProperty(value = "用户类型，默认为普通用户")
+    private String type;
+
+    @ApiModelProperty(value = "徽章，用于标识用户特殊身份或成就")
+    private String badge;
+    @ApiModelProperty(value = "是否启用，1 表示启用，0 表示封禁，默认为启用")
+    private Integer isActive;
 
 }

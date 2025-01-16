@@ -12,7 +12,7 @@ import com.pixeltalk.domain.po.User;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface IUserService extends IService<UserDto> {
+public interface IUserService extends IService<User> {
 
     boolean getByUsername(String username);
 
@@ -21,4 +21,6 @@ public interface IUserService extends IService<UserDto> {
     boolean getByPhone(String phone);
 
     User getUserByUsername(String username);
+
+    Integer getIsActive(String userId);
 }

@@ -1,5 +1,6 @@
 package com.pixeltalk.websocket;
 
+import com.pixeltalk.constant.MessageConstant;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -46,7 +47,7 @@ public class NettyWebSocketStarter {
                             //对http消息进行聚合
                             pipeline.addLast(new HttpObjectAggregator(64 * 1024));
                             //心跳检测
-                            pipeline.addLast(new IdleStateHandler(6, 0, 0, TimeUnit.SECONDS));
+                            pipeline.addLast(new IdleStateHandler(MessageConstant.HEARTBEAT_INTERVAL, 0, 0, TimeUnit.SECONDS));
                             pipeline.addLast(new HandlerHeartBeat());
                             //将http消息编码为websocket协议
                             pipeline.addLast(new WebSocketServerProtocolHandler("/ws", null, true, 65536 , true,true,10000L));

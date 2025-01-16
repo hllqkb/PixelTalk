@@ -6,6 +6,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.pixeltalk.constant.MessageConstant;
 import com.pixeltalk.domain.dto.UserDto;
 import com.pixeltalk.domain.dto.UserLoginDto;
+import com.pixeltalk.domain.dto.UserUpdate;
 import com.pixeltalk.domain.po.User;
 import com.pixeltalk.encryption.Myencryption;
 import com.pixeltalk.redis.RedisComponent;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -55,6 +57,7 @@ public class UserController {
         if(userService.getByPhone(newuser.getPhone())){
             return Result.error(MessageConstant.PHONE_EXIST);
         }
+        newuser.setType(MessageConstant.NORMAL_USER);
         newuser.setPassword(Myencryption.encrypt(newuser.getPassword()));
         userService.save(newuser);
         return Result.success(MessageConstant.REGISTER_SUCCESS);
@@ -71,12 +74,16 @@ public class UserController {
         if(getuser==null){
             return Result.error(MessageConstant.ACCOUNT_NOT_EXIST);
         }
-        if(!getuser.getIsActive()){
+        if(getuser.getIsActive().equals(MessageConstant.ACCOUNT_INACTIVE_CODE)){
             return Result.error(MessageConstant.ACCOUNT_INACTIVE);
         }
         //log.info("getpassword:{} ,userpassword:{} ",getuser.getPassword(),user.getPassword());
         if(!Myencryption.encrypt(user.getPassword()).equals(getuser.getPassword())){
             return Result.error(MessageConstant.PASSWORD_ERROR);
+        }
+        Long lastHeartTime=redisComponent.getUserHeartBeat(getuser.getUserId());
+        if(lastHeartTime!=null){
+            return Result.error(MessageConstant.USER_ALREADY_LOGIN);
         }
         log.info("login success");
         StpUtil.setLoginId(getuser.getUserId());
@@ -87,10 +94,13 @@ public class UserController {
     public Result<String> logout() {
         log.info("logout success");
         if(StpUtil.isLogin()){
+            redisComponent.deleteUserHeartBeat(StpUtil.getLoginIdAsInt());//删除心跳
+            redisComponent.deleteTokenUserInfo(StpUtil.getTokenValue());//删除token中的用户信息
             StpUtil.logout();
         }else{
             return Result.error(MessageConstant.NOT_LOGIN);
         }
+
         return Result.success(MessageConstant.LOGOUT_SUCCESS);
     }
     @PostMapping("/isLogin")
@@ -106,15 +116,41 @@ public class UserController {
         return Result.success(token);
     }
     @PostMapping("/getUserInfo")
-    public Result<UserDto> getUserInfo() {
-            User user = (User) userService.getById((Serializable) StpUtil.getLoginId());
-            UserDto userDto = BeanUtil.copyProperties(user, UserDto.class);
-            return Result.success(userDto);
+    public Result<User> getUserInfo() {
+            User user =userService.getById((Serializable) StpUtil.getLoginId());
+            return Result.success(user);
     }
     @PostMapping("/getUserByToken")
     public Result<User> getUserByToken() {
         String token = StpUtil.getTokenValue();
         return Result.success(redisComponent.getUserInfoByToken(token));
     }
+    @PostMapping("/deleteUser")
+    public Result<String> deleteUser() {
+        if (StpUtil.isLogin()) {
+            Integer userId = StpUtil.getLoginIdAsInt();
+            UserDto userdto =userService.getById((Serializable) userId);
+            userService.removeById(userdto.getUserId());
+            StpUtil.logout();
+            return Result.success(MessageConstant.DELETE_SUCCESS);
+        }
+        return Result.error(MessageConstant.NOT_LOGIN);
+    }
+    @PostMapping("/updateUser")
+    public Result<String> updateUser(@Valid @RequestBody UserUpdate user) {
+        if (StpUtil.isLogin()) {
+            //注意null字段拷贝问题
+            User myuser =userService.getById((Serializable) StpUtil.getLoginId());
+            User updateuser= BeanUtil.copyProperties(user, User.class);
+            updateuser.setUserId(myuser.getUserId());
+            updateuser.setPassword(Myencryption.encrypt(updateuser.getPassword()));
+            updateuser.setLoginTime(myuser.getLoginTime());
+            updateuser.setCreateTime(myuser.getCreateTime());
+            updateuser.setUpdateTime(LocalDateTime.now());
+            userService.updateById(updateuser);
+            return Result.success(MessageConstant.UPDATE_SUCCESS);
+        }
+        return Result.error(MessageConstant.NOT_LOGIN);
+        }
 
 }

@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Select;
  * @author hllqk
  * @since 2025-01-14
  */
-public interface UserMapper extends BaseMapper<UserDto> {
+public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT COUNT(*)>0 FROM user WHERE username = #{username}")
     boolean getByUsername(String username);
@@ -25,4 +25,8 @@ public interface UserMapper extends BaseMapper<UserDto> {
 
     @Select("SELECT * FROM user WHERE username = #{username}")
     User getUserByUsername(String username);
+
+
+    @Select("SELECT is_active FROM user WHERE user_id = #{userId}")
+    Integer getIsActive(String userId);
 }

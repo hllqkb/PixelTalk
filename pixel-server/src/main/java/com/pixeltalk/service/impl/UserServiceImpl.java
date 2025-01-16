@@ -1,6 +1,5 @@
 package com.pixeltalk.service.impl;
 
-import com.pixeltalk.domain.dto.UserDto;
 import com.pixeltalk.domain.po.User;
 import com.pixeltalk.mapper.UserMapper;
 import com.pixeltalk.service.IUserService;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2025-01-14
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserDto> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -31,6 +30,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDto> implements
         return userMapper.getByEmail(email);
     }
 
+
     @Override
     public boolean getByPhone(String phone) {
         return userMapper.getByPhone(phone);
@@ -39,5 +39,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDto> implements
     @Override
     public User getUserByUsername(String username) {
         return userMapper.getUserByUsername(username);
+    }
+    @Override
+    public Integer getIsActive(String userId){
+        return userMapper.getIsActive(userId);
     }
 }
