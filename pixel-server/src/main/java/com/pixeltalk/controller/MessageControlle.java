@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @Api(tags = "消息接口")
 @RequestMapping("/message")
 @RequiredArgsConstructor
-public class MessageController {
+public class MessageControlle  {
     private final MessageMapper messageMapper;
     @PostMapping("/send")
     public Object send(@Valid @RequestBody MessageDto messageDto) {

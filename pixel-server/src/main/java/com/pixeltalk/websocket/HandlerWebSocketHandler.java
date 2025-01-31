@@ -36,20 +36,22 @@ public class HandlerWebSocketHandler extends SimpleChannelInboundHandler<TextWeb
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        // 连接断开
+        // 连接断开事件触发
         Channel channel = ctx.channel();
         Attribute<String> attribute = channel.attr(AttributeKey.valueOf("userId"));
         String userId = null;
         if(attribute != null) {
             userId = attribute.get();
             if (userId != null) {
+                // 清除用户心跳
                 redisComponent.deleteUserHeartBeat(Integer.valueOf(userId));
+                // 清除用户上下文
+                channelContextUtils.removeContext(userId);
+                log.info("用户{}的连接断开...", userId);
             }
+        }else{
+            log.warn("Token效验失败，无法获取用户ID");
         }
-        // 清除用户上下文
-        channelContextUtils.removeContext(userId);
-
-        log.info("用户{}的连接断开...", userId);
     }
 
     @Override
@@ -148,8 +150,10 @@ public class HandlerWebSocketHandler extends SimpleChannelInboundHandler<TextWeb
                 channel.writeAndFlush(new TextWebSocketFrame("已加入群组：" + groupId+"当前人数：" + channelContextUtils.getGroupUserCount(groupId)));
 
             } else {
+                //注意！这里不能直接关闭连接，否则客户端无法接收到关闭消息
                 log.info("登录失败");
                 ctx.close();
+                return;
             }
         }
         log.info("用户事件触发...");
